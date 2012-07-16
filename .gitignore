@@ -1,0 +1,11 @@
+/fonts/
+/tags/
+/textos
+
+*.exe
+*.bmp
+*.ico
+.rsrc
+*.gif
+*.pdf
+tutor
