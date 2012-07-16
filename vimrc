@@ -60,9 +60,9 @@ map <C-S-N> :call NumberToggle()<cr>
 
 "tabs
 map <C-S-T> <ESC>:tabnew<CR>:NERDTreeMirror<CR>
-nmap :tn :tabnext<cr>
-nmap :tp :tabprevious<cr>
-nmap :tc :tabclose<cr>
+map <C-S-L> <ESC>:tabnext<cr>
+map <C-S-H> <ESC>:tabprevious<cr>
+map <C-S-C> <ESC>:tabclose<cr>
 
 "windows
 map <C-j> <C-W>j
@@ -143,3 +143,14 @@ au FileType cs set errorformat=\ %#%f(%l\\\,%c):\ error\ CS%n:\ %m
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
 "
 set tag=C:\Users\Matheus\Documents\Repositorios\Catalogo\tagfile
+
+
+"CamelCasePlugin
+map <silent>w <Plug>CamelCaseMotion_w
+map <silent>b <Plug>CamelCaseMotion_b
+
+sunmap w
+sunmap b
+
+map <silent><S-W> <S-right>
+map <silent><S-B> <S-left>
