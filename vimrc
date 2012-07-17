@@ -29,8 +29,8 @@ set mousehide
 set shiftwidth=4		" 4 characters for indenting
 set showmatch			" showmatch: Show the matching bracket for the last ')'?
 set nospell
-set nowrap				"nowrap by default
-syn on
+set wrap				"nowrap by default
+syntax enable
 set completeopt=menu,longest,preview
 set confirm
 
@@ -58,17 +58,17 @@ nmap <C-f12> <ESC>:tabnew<CR>:e $VIM/vimrc<CR>
 imap <C-space> <C-n>
 map <C-S-N> :call NumberToggle()<cr>
 
-"tabs
-map <C-S-T> <ESC>:tabnew<CR>:NERDTreeMirror<CR>
-map <C-S-L> <ESC>:tabnext<cr>
-map <C-S-H> <ESC>:tabprevious<cr>
-map <C-S-C> <ESC>:tabclose<cr>
-
 "windows
 map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
+
+"tabs
+map <C-S-T> <ESC>:tabnew<CR>:NERDTreeMirror<CR>
+map <C-S-L> <ESC>:tabnext<cr>
+map <C-S-H> <ESC>:tabprevious<cr>
+map <C-S-C> <ESC>:tabclose<cr>
 
 imap ( ()<left>
 imap "<space> ""<left>
@@ -76,17 +76,30 @@ imap '<space> ''<left>
 imap { {}<left>
 imap [ []<left>
 
-" Return to last edit position when opening files (You want this!)
-autocmd BufReadPost *
-     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-     \   exe "normal! g`\"" |
-     \ endif
-" Remember info about open buffers on close
-set viminfo^=%
-
 " Remap VIM 0 to first non-blank character
 map 0 ^
 
+"CamelCasePlugin key mapping
+map <silent>w <Plug>CamelCaseMotion_w
+map <silent>b <Plug>CamelCaseMotion_b
+
+sunmap w
+sunmap b
+
+map <silent><S-W> <S-right>
+map <silent><S-B> <S-left>
+
+" Copy filename to clipboard
+" Convert slashes to backslashes for Windows.
+if has('win32')
+  nmap <silent>,cf :let @*=substitute(expand("%:p"), "/", "\\", "g")<CR>
+  nmap <silent>,cp :let @*=substitute(expand("%:p:h"), "/", "\\", "g")<CR>
+  nmap <silent>,coe ,cp :!explorer <C-R>*<CR>
+else
+  nmap <silent>,cf :let @*=expand("%:p")<CR>
+  nmap <silent>,cp :let @*=expand("%:p:h")<CR>
+  nmap <silent>,coe ,cp :!nautilus<C-R>*<CR>
+endif
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 "PLUGINS
@@ -144,13 +157,11 @@ au FileType cs set errorformat=\ %#%f(%l\\\,%c):\ error\ CS%n:\ %m
 "
 set tag=C:\Users\Matheus\Documents\Repositorios\Catalogo\tagfile
 
+" Return to last edit position when opening files (You want this!)
+autocmd BufReadPost *
+     \ if line("'\"") > 0 && line("'\"") <= line("$") |
+     \   exe "normal! g`\"" |
+     \ endif
 
-"CamelCasePlugin
-map <silent>w <Plug>CamelCaseMotion_w
-map <silent>b <Plug>CamelCaseMotion_b
-
-sunmap w
-sunmap b
-
-map <silent><S-W> <S-right>
-map <silent><S-B> <S-left>
+" Remember info about open buffers on close
+set viminfo^=%
