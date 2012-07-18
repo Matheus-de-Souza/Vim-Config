@@ -94,8 +94,8 @@ map <silent><S-B> <S-left>
 " Convert slashes to backslashes for Windows.
 if has('win32')
   nmap <silent>,cf :let @*=substitute(expand("%:p"), "/", "\\", "g")<CR>
-  nmap <silent>,cp :let @*=substitute(expand("%:p:h"), "\\", "/", "g")<CR>
-  nmap <silent>,coe ,cp :!explorer <C-R>*<CR>
+  nmap <silent>,cp :let @*substitute(expand("%:p:h"), "/", "\\", "g")<CR>
+  nmap <silent>,coe ,cp :!explorer "<C-R>*"<CR>
   nmap <silent>,cos ,cp :!powershell cd <C-R>*<CR>
 else
   nmap <silent>,cf :let @*=expand("%:p")<CR>
@@ -171,11 +171,11 @@ let Tlist_Use_Horiz_Window=0
 nnoremap TT :TlistToggle<CR>
 map <F4> :TlistToggle<CR>
 " Various Taglist diplay config:
-let Tlist_Use_Right_Window = 1
-let Tlist_Compact_Format = 1
-let Tlist_Exit_OnlyWindow = 1
-let Tlist_GainFocus_On_ToggleOpen = 1
-let Tlist_File_Fold_Auto_Close = 1
+let Tlist_Use_Right_Window=1
+let Tlist_Compact_Format=1
+let Tlist_Exit_OnlyWindow=1
+let Tlist_GainFocus_On_ToggleOpen=1
+let Tlist_File_Fold_Auto_Close=1
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
