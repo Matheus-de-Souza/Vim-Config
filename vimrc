@@ -13,6 +13,7 @@ set history=50		" keep 50 lines of command line history
 set ruler			" show the cursor position all the time
 set showcmd			" display incomplete commands
 set incsearch		" do incremental searching
+set hlsearch
 set tabstop=4
 
 set autoread
@@ -40,12 +41,12 @@ set confirm
 "GENERAL KEYMAPPING
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+nmap ,hl :call HlSearchtoggle()<CR>
 nmap <C-f12> <ESC>:tabnew<CR>:e $VIM/vimrc<CR>
 
 "ctrl + space @_@
 imap <C-space> <C-n>
-map <C-S-N> :call NumberToggle()<cr>
+map <C-S-N> :call NumberToggle()<CR>
 
 "windows
 map <C-j> <C-W>j
@@ -91,6 +92,7 @@ else
   nmap <silent>,coe ,cp :!nautilus<C-R>*<CR>
   nmap <silent>,cos ,cp :!terminal cd <C-R>*<CR>
 endif
+
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 "PLUGINS
@@ -127,6 +129,14 @@ endif
 "MY FUNCTIONS
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+function! HlSearchtoggle()
+  if(&hlsearch == 1)
+    set nohlsearch
+  else
+    set hlsearch
+  endif
+endfunc
 
 function! NumberToggle()
   if(&relativenumber == 1)
