@@ -1,5 +1,14 @@
 "MY VIM CONFIGURATION
 
+"SET RUNTIMEPATH
+if has('win32') || has('win64')
+	set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+endif
+
+runtime! autoload/pathogen.vim
+silent! call pathogen#helptags()
+silent! call pathogen#runtime_append_all_bundles()
+
 "SET CONFIGURATION
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -29,6 +38,7 @@ set hidden 				" allow switching buffers, which have unsaved changes
 set mousehide
 set shiftwidth=4		" 4 characters for indenting
 set showmatch			" showmatch: Show the matching bracket for the last ')'?
+set scrolloff=3 		" minimum lines to keep above and below cursor
 set nospell
 set wrap				"nowrap by default
 set wildmenu
@@ -41,6 +51,13 @@ set confirm
 "GENERAL KEYMAPPING
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+" Stupid shift key fixes
+cmap W w
+cmap WQ wq
+cmap wQ wq
+cmap Q q
+
 nmap ,hl :call HlSearchtoggle()<CR>
 nmap <C-f12> <ESC>:tabnew<CR>:e $VIM/vimrc<CR>
 
@@ -84,7 +101,7 @@ map <silent><S-B> <S-left>
 if has('win32')
   nmap <silent>,cf :let @*=substitute(expand("%:p"), "/", "\\", "g")<CR>
   nmap <silent>,cp :let @*=substitute(expand("%:p:h"), "/", "\\", "g")<CR>
-  nmap <silent>,coe ,cp :!explorer "<C-R>*"<CR>
+  nmap <silent>,coe ,cp :!start explorer "<C-R>*"<CR>
   nmap <silent>,cos ,cp :!powershell cd <C-R>*<CR>
 else
   nmap <silent>,cf :let @*=expand("%:p")<CR>
@@ -92,6 +109,8 @@ else
   nmap <silent>,coe ,cp :!nautilus<C-R>*<CR>
   nmap <silent>,cos ,cp :!terminal cd <C-R>*<CR>
 endif
+
+map <silent><F7> :!start ctags.exe --recurse=yes -f C:/Users/Matheus/Documents/Repositorios/Catalogo/tagfile --exclude="bin" --fields=+ianmzS --c\#-kinds=cimnp C:/Users/Matheus/Documents/Repositorios/Catalogo<CR>
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
