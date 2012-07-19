@@ -37,18 +37,6 @@ set confirm
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-"FONTS AND COLORSCHEME
-
-"~~~~~~~~~~~~~~~~~~~~~~~~~~~
-if has('gui_running')
-  set guifont=Envy_Code_R:h10
-  colorscheme molokai
-else
-  colorscheme slate
-endif
-
-"~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 "GENERAL KEYMAPPING
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -94,7 +82,7 @@ map <silent><S-B> <S-left>
 " Convert slashes to backslashes for Windows.
 if has('win32')
   nmap <silent>,cf :let @*=substitute(expand("%:p"), "/", "\\", "g")<CR>
-  nmap <silent>,cp :let @*substitute(expand("%:p:h"), "/", "\\", "g")<CR>
+  nmap <silent>,cp :let @*=substitute(expand("%:p:h"), "/", "\\", "g")<CR>
   nmap <silent>,coe ,cp :!explorer "<C-R>*"<CR>
   nmap <silent>,cos ,cp :!powershell cd <C-R>*<CR>
 else
@@ -109,6 +97,10 @@ endif
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+"Pathogen
+call pathogen#helptags()
+call pathogen#infect()
+
 "NERDTree
 "~~~~~~~~
 map <f2> :NERDTreeToggle<cr>
@@ -117,6 +109,18 @@ imap <f2> <esc>:NERDTreeToggle<cr>a
 autocmd vimenter * if !argc() | NERDTree c:/USERS/Matheus/Documents/Repositorios/ | endif
 
 let NERDTreeIgnore=['.*\.meta', '.*\.unity.+', '.*\.\(cs\|unity\)proj','.*\.pidb']
+
+"~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+"FONTS AND COLORSCHEME
+
+"~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if has('gui_running')
+  set guifont=Envy_Code_R:h10
+  colorscheme solarized
+else
+  colorscheme slate
+endif
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~
 
