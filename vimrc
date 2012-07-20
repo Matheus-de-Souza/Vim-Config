@@ -52,6 +52,9 @@ set confirm
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+" Remapping leader key
+let mapleader=","
+
 " Stupid shift key fixes
 cmap W w
 cmap WQ wq
@@ -96,18 +99,18 @@ sunmap b
 map <silent><S-W> <S-right>
 map <silent><S-B> <S-left>
 
-" Copy filename to clipboard
-" Convert slashes to backslashes for Windows.
+"Filename, filpath and like:w
 if has('win32')
-  nmap <silent>,cf :let @*=substitute(expand("%:p"), "/", "\\", "g")<CR>
-  nmap <silent>,cp :let @*=substitute(expand("%:p:h"), "/", "\\", "g")<CR>
-  nmap <silent>,coe ,cp :!start explorer "<C-R>*"<CR>
-  nmap <silent>,cos ,cp :!powershell cd <C-R>*<CR>
+  inoremap <silent><leader>pf <C-R>=expand("%:t:r")<CR>
+  nmap <silent><leader>cf :let @*=substitute(expand("%:p"), "/", "\\", "g")<CR>
+  nmap <silent><leader>cp :let @*=substitute(expand("%:p:h"), "/", "\\", "g")<CR>
+  nmap <silent><leader>coe <leader>cp :!start explorer "<C-R>*"<CR>
+  nmap <silent><leader>cos <leader>cp :!start powershell -NoExit cd "<C-R>*"<CR>
 else
-  nmap <silent>,cf :let @*=expand("%:p")<CR>
-  nmap <silent>,cp :let @*=expand("%:p:h")<CR>
-  nmap <silent>,coe ,cp :!nautilus<C-R>*<CR>
-  nmap <silent>,cos ,cp :!terminal cd <C-R>*<CR>
+  nmap <silent><leader>cf :let @*=expand("%:p")<CR>
+  nmap <silent><leader>cp :let @*=expand("%:p:h")<CR>
+  nmap <silent><leader>coe <leader>cp :!nautilus<C-R>*<CR>
+  nmap <silent><leader>cos <leader>cp :!terminal cd <C-R>*<CR>
 endif
 
 map <silent><F7> :!start ctags.exe --recurse=yes -f C:/Users/Matheus/Documents/Repositorios/Catalogo/tagfile --exclude="bin" --fields=+ianmzS --c\#-kinds=cimnp C:/Users/Matheus/Documents/Repositorios/Catalogo<CR>
