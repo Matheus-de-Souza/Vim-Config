@@ -1,0 +1,3 @@
+[submodule "bundle/camelcasemotion"]
+	path = bundle/camelcasemotion
+	url = https://github.com/travisjeffery/camelcasemotion.git
