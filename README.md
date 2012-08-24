@@ -1,8 +1,9 @@
-# Installation
 
 Hi! It is my VIM configuration.
 
 I like it a lot. Maybe you could think the same. :)
+
+# Installation
 
 ## Windows
 
