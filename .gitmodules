@@ -31,3 +31,6 @@
 [submodule "bundle/vim-statline"]
 	path = bundle/vim-statline
 	url = https://github.com/ldx/vim-statline.git
+[submodule "bundle/vim-surround"]
+	path = bundle/vim-surround
+	url = https://github.com/tpope/vim-surround.git
