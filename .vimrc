@@ -1,13 +1,13 @@
 "MY VIM CONFIGURATION
 
 "SET RUNTIMEPATH
-if has('win32') || has('win64')
-	set runtimepath=$HOME/.vim,$VIMRUNTIME
-endif
+set runtimepath=$HOME/.vim,$VIMRUNTIME
 
-runtime! autoload/pathogen.vim
-silent! call pathogen#helptags()
-silent! call pathogen#runtime_append_all_bundles()
+if !exists("g:loaded_pathogen")
+	"runtime! autoload/pathogen.vim
+	silent! call pathogen#helptags()
+	silent! call pathogen#runtime_append_all_bundles()
+endif
 
 "SET CONFIGURATION
 
@@ -18,7 +18,7 @@ set nocompatible
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 set nobackup		" DON'T keep a backup file
 
-set history=50		" keep 50 lines of command line history
+set history=200		" keep 50 lines of command line history
 set ruler			" show the cursor position all the time
 set showcmd			" display incomplete commands
 set incsearch		" do incremental searching
@@ -40,7 +40,15 @@ set shiftwidth=4		" 4 characters for indenting
 set showmatch			" showmatch: Show the matching bracket for the last ')'?
 set scrolloff=3 		" minimum lines to keep above and below cursor
 set nospell
+"set spelllang=pt_br
+
 set wrap				"nowrap by default
+"
+"set textwidth=80
+"set formatoptions+=a
+set linebreak
+set nolist
+
 set wildmenu
 syntax enable
 set completeopt=menu,longest,preview
@@ -55,39 +63,59 @@ set confirm
 " Remapping leader key
 let mapleader=","
 
-" Stupid shift key fixes
-cmap W w
-cmap WQ wq
-cmap wQ wq
-cmap Q q
+map <leader>ow <ESC>:NERDTree C:/Program Files\ \(x86\)/EasyPHP-5.3.8.1/www/<CR>
 
-nmap ,hl :call HlSearchtoggle()<CR>
+nmap <leader>hl :call HlSearchtoggle()<CR>
+nmap <leader>ts :call TabSizeToggle()<CR>
+
+" Check spell
+nmap <silent> <leader>s :set spell!<CR>
 
 " Open vimrc
-if has('win32') || has('win64')
-	nmap <C-f12> <ESC>:tabnew<CR>:e ~/_vimrc<CR>
-else
-	nmap <C-f12> <ESC>:tabnew<CR>:e ~/vimrc<CR>
-endif
+nmap <silent> <C-f12> <ESC>:tabnew<CR>:e $MYVIMRC<CR>
 
-"ctrl + space @_@
-imap <C-space> <C-n>
-map <C-S-N> :call NumberToggle()<CR>
+" Toggle line numbers between relative and absolute
+nmap <silent> <leader>nt :call NumberToggle()<CR>
 
-"tabs
-map <C-S-T> <ESC>:tabnew<CR>:NERDTreeMirror<CR>
-map <C-S-L> <ESC>:tabnext<cr>
-map <C-S-H> <ESC>:tabprevious<cr>
-map <C-S-C> <ESC>:tabclose<cr>
+" Tab mappings.
+map <leader>tt :tabnew<cr>
+map <leader>te :tabedit
+map <leader>tc :tabclose<cr>
+map <leader>to :tabonly<cr>
+map <leader>tn :tabnext<cr>
+map <leader>tp :tabprevious<cr>
+map <leader>tf :tabfirst<cr>
+map <leader>tl :tablast<cr>
+map <leader>tm :tabmove<cr>
 
+"Window resizing
+map <A-+> <C-w>+
+map <A-_> <C-w>-
+map <A->> <C-w>>
+map <A-<> <C-w><
+
+"auto complete brackets, parenteses and so on
 imap ( ()<left>
 imap "<space> ""<left>
 imap '<space> ''<left>
 imap { {}<left>
 imap [ []<left>
 
+"automatically change current working directory
+map <leader>cwd :lcd %:p:h<CR>
+
 " Remap VIM 0 to first non-blank character
 map 0 ^
+
+"Remap r to R
+nnoremap r R
+
+"Indenting on visual mode
+vmap > >gv
+vmap < <gv
+
+" Copy from cursor to the end of the line
+nnoremap Y y$
 
 "CamelCasePlugin key mapping
 map <silent>w <Plug>CamelCaseMotion_w
@@ -96,16 +124,13 @@ map <silent>b <Plug>CamelCaseMotion_b
 sunmap w
 sunmap b
 
-map <silent><S-W> <S-right>
-map <silent><S-B> <S-left>
-
-"Filename, filpath and like:w
-if has('win32')
-  inoremap <silent><leader>pfn <C-R>=expand("%:t:r")<CR>
+"Filename, filpath and like
+if has('win32') || has('win64')
+  nmap <silent><leader>pfn <C-R>=expand("%:t:r")<CR>
   nmap <silent><leader>cfn :let @*=substitute(expand("%:p"), "/", "\\", "g")<CR>
   nmap <silent><leader>cfp :let @*=substitute(expand("%:p:h"), "/", "\\", "g")<CR>
-  nmap <silent><leader>oe <leader>cfp :!start explorer "<C-R>*"<CR>
-  nmap <silent><leader>os <leader>cfp :!start powershell -NoExit cd "<C-R>*"<CR>
+  nmap <silent><leader>oe :!start explorer "%:p:h"<CR>
+  nmap <silent><leader>os :!start powershell -NoExit cd "%:p:h"<CR>
 else
   nmap <silent><leader>cfn :let @*=expand("%:p")<CR>
   nmap <silent><leader>cfp :let @*=expand("%:p:h")<CR>
@@ -113,27 +138,33 @@ else
   nmap <silent><leader>os <leader>cfp :!terminal cd <C-R>*<CR>
 endif
 
-nmap <leader>ddl :g/^$/d<CR>
-map <silent><F7> :!start C:/Users/Matheus/.vim/tags/ctags.exe --recurse=yes -f C:/Users/Matheus/.vim/tags/commontags --exclude="bin" --fields=+ianmzS --c\#-kinds=cimnp C:/Users/Matheus/Documents/Repositorios/Catalogo<CR>
+map <silent><F7> :!start C:/Users/Matheus/.vim/tags/ctags.exe --append=yes --recurse=yes -f C:/Users/Matheus/.vim/tags/commontags --extra=+fq --fields=+fiKlmnsSzt --c\#-kinds=cdefimnps --sort=yes C:/Users/Matheus/Documents/Repositorios/Catalogo/*<CR>
+
+" Show syntax highlighting groups for word under cursor
+nmap <C-S-P> :call <SID>SynStack()<CR>
+function! <SID>SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 "PLUGINS
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-"Pathogen
-call pathogen#helptags()
-call pathogen#infect()
-
+"
 "NERDTree
 "~~~~~~~~
 map <f2> :NERDTreeToggle<cr>
 imap <f2> <esc>:NERDTreeToggle<cr>a
 
-autocmd vimenter * if !argc() | NERDTree C:/USERS/Matheus/Documents/Repositorios/ | endif
+if has('win32') || has('win64')
+	autocmd vimenter * if !argc() | NERDTree C:/USERS/Matheus/Documents/Repositorios/ | endif
+endif
 
-let NERDTreeIgnore=['.*\.meta', '.*\.unity.+', '.*\.\(cs\|unity\)proj','.*\.pidb']
+let NERDTreeIgnore=['.*\.meta', '.*\.\(cs\|unity\)proj','.*\.pidb']
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -141,7 +172,7 @@ let NERDTreeIgnore=['.*\.meta', '.*\.unity.+', '.*\.\(cs\|unity\)proj','.*\.pidb
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
 if has('gui_running')
-  set guifont=Envy_Code_R:h10
+  set guifont=Consolas:h11
   colorscheme solarized
 else
   colorscheme slate
@@ -159,6 +190,15 @@ function! HlSearchtoggle()
   else
     set hlsearch
   endif
+endfunc
+
+function! TabSizeToggle()
+	if(&tabstop == 4)
+		set tabstop=2 shiftwidth=2 softtabstop=2
+	else
+		set tabstop=4 shiftwidth=4 softtabstop=4
+	endif
+	echo "tab size: " &tabstop
 endfunc
 
 function! NumberToggle()
@@ -193,8 +233,19 @@ au FileType cs set foldtext=substitute(getline(v:foldstart),'{.*','{...}',)
 au FileType cs set foldlevelstart=2
 au FileType cs set errorformat=\ %#%f(%l\\\,%c):\ error\ CS%n:\ %m
 
-" Tags
+"HTML
+au FileType html set foldmethod=indent
+au FileType html set foldlevelstart=5
 
+"CSS
+au FileType cs set foldmethod=marker
+au FileType cs set foldmarker={,}
+
+"Javascript
+au FileType Javascript set foldmethod=marker
+au FileType Javascript set foldmarker={,}
+
+" Tags
 set tag=C:/USERS/Matheus/.vim/tags/commontags
 
 " Taglist plugin
@@ -205,7 +256,6 @@ let generate_tags=1
 " Displays taglist results in a vertical window:
 let Tlist_Use_Horiz_Window=0
 " Shorter commands to toggle Taglist display
-nnoremap TT :TlistToggle<CR>
 map <F4> :TlistToggle<CR>
 " Various Taglist diplay config:
 let Tlist_Use_Right_Window=1
@@ -220,19 +270,12 @@ autocmd BufReadPost *
      \   exe "normal! g`\"" |
      \ endif
 
-" imap jj			<Esc>
-
 " omnicppcomplete options
 map <C-x><C-x><C-T> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q -f <CR><CR>
 " ~/.vim/commontags /usr/include /usr/local/include ~/moz/obj-ff-dbg/dist/include<CR><CR>
 set tags+=C:/USERS/Matheus/.vim/tags/commontags
 
 " --- OmniCppComplete ---
-" -- required --
-set nocp " non vi compatible mode
-filetype plugin on " enable plugins
-
-" -- optional --
 " auto close options when exiting insert mode or moving away
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
@@ -248,8 +291,6 @@ let OmniCpp_ShowPrototypeInAbbr = 1 " show function prototype (i.e. parameters) 
 let OmniCpp_LocalSearchDecl = 1 " don't require special style of function opening braces
 
 " -- ctags --
-" map <ctrl>+F12 to generate ctags for current folder:
-map <C-x><C-t> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR>
 " add current directory's generated tags file to available tags
 set tags+=./tags
 
