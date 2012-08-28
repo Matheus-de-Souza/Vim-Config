@@ -1,27 +1,23 @@
 # Installation
 
-Hi! It is my VIM configuration.
+Hi! This is my VIM configuration.
 
 I like it a lot. Maybe you could think the same. :)
 
 ## Windows
 
-Open powershell and run:
+Open Git Bash and run the following commands:
 
 	git clone https://github.com/Matheus-de-Souza/Vim-Config.git ~/.vim
-	cd ~/.vim
-	git submodule init
-	git submodule foreach git pull origin master
-	cmd /c mklink /H ~/_vimrc ~/.vim/.vimrc
+	git submodule update --init
+	ln -s ~/.vim/.vimrc ~/_vimrc
 
 ## Mac/Linux
 
-Open terminal and run:
+Open Terminal and run the following commands:
 
 	git clone https://github.com/Matheus-de-Souza/Vim-Config.git ~/.vim
-	cd ~/.vim
-	git submodule init
-	git submodule foreach git pull origin master
+	git submodule update --init
 	ln -s ~/.vim/.vimrc ~/.vimrc
 
 Obs.: This configuration was only tested on windows. If you has other OS, use at your own risk.
