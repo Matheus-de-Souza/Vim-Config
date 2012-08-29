@@ -4,9 +4,9 @@
 set runtimepath=$HOME/.vim,$VIMRUNTIME
 
 if !exists("g:loaded_pathogen")
-	"runtime! autoload/pathogen.vim
-	silent! call pathogen#helptags()
+	runtime! autoload/pathogen.vim
 	silent! call pathogen#runtime_append_all_bundles()
+	silent! call pathogen#helptags()
 endif
 
 "SET CONFIGURATION
@@ -159,9 +159,13 @@ endfunc
 "PLUGINS
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
-"
-"
+
+"Matchit
+"~~~~~~~~
+runtime! macros/matchit.vim
+
 "NeoComplCache
+"~~~~~~~~
 
 " Enable NeoComplCache on startup
 let g:neocomplcache_enable_at_startup = 1
