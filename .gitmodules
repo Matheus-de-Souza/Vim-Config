@@ -2,7 +2,7 @@
 	path = bundle/camelcasemotion
 	url = https://github.com/travisjeffery/camelcasemotion.git
 [submodule "bundle/matchit"]
-	path = bundle/matchit
+	path = macros/matchit/
 	url = https://github.com/tmhedberg/matchit.git
 [submodule "bundle/molokai"]
 	path = bundle/molokai
