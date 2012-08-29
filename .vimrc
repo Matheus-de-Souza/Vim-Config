@@ -77,6 +77,9 @@ nmap <silent> <C-f12> <ESC>:tabnew<CR>:e ~/.vim/.vimrc<CR>
 " Toggle line numbers between relative and absolute
 nmap <silent> <leader>nt :call NumberToggle()<CR>
 
+"Call function
+nmap <C-D> :call DoCalc()<CR>
+
 " Tab mappings.
 map <leader>tt :tabnew<cr>
 map <leader>te :tabedit
@@ -104,11 +107,13 @@ imap [ []<left>
 "automatically change current working directory
 map <leader>cwd :lcd %:p:h<CR>
 
-" Remap VIM 0 to first non-blank character
-map 0 ^
+" Remap VIM 0 to first non-blank character and ^ to first character
+nnoremap 0 ^
+nnoremap ^ 0
 
 "Remap r to R
 nnoremap r R
+nnoremap R r
 
 "Indenting on visual mode
 vmap > >gv
@@ -155,6 +160,12 @@ endfunc
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
 "
+"
+"NeoComplCache
+
+" Enable NeoComplCache on startup
+let g:neocomplcache_enable_at_startup = 1
+
 "NERDTree
 "~~~~~~~~
 map <f2> :NERDTreeToggle<cr>
@@ -217,6 +228,20 @@ function! <SID>RemoveWhitespaces()
   call cursor(l, c)
 endfunction
 
+let g:CopyResultToClipboard=1
+let g:CopyResultToClipboardAlternative=1
+
+function! <SID>DoCalc()
+	let line = getline('.')
+	if(exists("g:CopyResultToClipboard"))
+		let @+=eval(line)
+	else
+		if(exists("g:CopyResultToClipboardAlternative")
+			let @a=eval(line)
+		endif
+	endif
+	echo eval(line)
+endfunction
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 "MISCELANIA
@@ -235,15 +260,15 @@ au FileType cs set errorformat=\ %#%f(%l\\\,%c):\ error\ CS%n:\ %m
 
 "HTML
 au FileType html set foldmethod=indent
-au FileType html set foldlevelstart=5
+au FileType html set foldlevelstart=1
 
 "CSS
 au FileType cs set foldmethod=marker
 au FileType cs set foldmarker={,}
 
 "Javascript
-au FileType Javascript set foldmethod=marker
-au FileType Javascript set foldmarker={,}
+au FileType Javascript set foldmethod=indent
+au FileType Javascript set foldlevelstart=1
 
 " Tags
 set tag=C:/USERS/Matheus/.vim/tags/commontags
