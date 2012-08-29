@@ -72,7 +72,7 @@ nmap <leader>ts :call TabSizeToggle()<CR>
 nmap <silent> <leader>s :set spell!<CR>
 
 " Open vimrc
-nmap <silent> <C-f12> <ESC>:tabnew<CR>:e $MYVIMRC<CR>
+nmap <silent> <C-f12> <ESC>:tabnew<CR>:e ~/.vim/.vimrc<CR>
 
 " Toggle line numbers between relative and absolute
 nmap <silent> <leader>nt :call NumberToggle()<CR>
