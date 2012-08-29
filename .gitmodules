@@ -37,3 +37,6 @@
 [submodule "bundle/neocomplcache"]
 	path = bundle/neocomplcache
 	url = https://github.com/Shougo/neocomplcache.git
+[submodule "bundle/calendar-vim"]
+	path = bundle/calendar-vim
+	url = https://github.com/mattn/calendar-vim.git
