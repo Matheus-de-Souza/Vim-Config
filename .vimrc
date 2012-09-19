@@ -129,6 +129,27 @@ map <silent>b <Plug>CamelCaseMotion_b
 sunmap w
 sunmap b
 
+
+" Fake '|' as text object
+nnoremap di\| T\|d,
+nnoremap da\| F\|d,
+nnoremap ci\| T\|c,
+nnoremap ca\| F\|c,
+nnoremap yi\| T\|y,
+nnoremap ya\| F\|y,
+nnoremap vi\| T\|v,
+nnoremap va\| F\|v,
+
+" Fake '/' as text object
+nnoremap di/ T/d,
+nnoremap da/ F/d,
+nnoremap ci/ T/c,
+nnoremap ca/ F/c,
+nnoremap yi/ T/y,
+nnoremap ya/ F/y,
+nnoremap vi/ T/v,
+nnoremap va/ F/v,
+
 "Filename, filpath and like
 if has('win32') || has('win64')
   nmap <silent><leader>pfn <C-R>=expand("%:t:r")<CR>
