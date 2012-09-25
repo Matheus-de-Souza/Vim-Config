@@ -72,10 +72,10 @@ nmap <leader>ts :call TabSizeToggle()<CR>
 nmap <silent> <leader>s :set spell!<CR>
 
 " Open vimrc
-nmap <silent> <C-f12> <ESC>:tabnew<CR>:e ~/.vim/.vimrc<CR>
+nmap <silent> <C-f12> <ESC>:tabnew<CR>:e $MYVIMRC<CR>
 
 " Toggle line numbers between relative and absolute
-nmap <silent> <leader>nt :call NumberToggle()<CR>
+map <leader>nt :call NumberToggle()<CR>
 
 "Call function
 nmap <C-D> :call DoCalc()<CR>
@@ -107,6 +107,9 @@ imap [ []<left>
 "automatically change current working directory
 map <leader>cwd :lcd %:p:h<CR>
 
+
+nnoremap j gj
+nnoremap k gk
 " Remap VIM 0 to first non-blank character and ^ to first character
 nnoremap 0 ^
 nnoremap ^ 0
@@ -121,6 +124,7 @@ vmap < <gv
 
 " Copy from cursor to the end of the line
 nnoremap Y y$
+nnoremap <C-Y> "+y$
 
 "CamelCasePlugin key mapping
 map <silent>w <Plug>CamelCaseMotion_w
@@ -128,7 +132,6 @@ map <silent>b <Plug>CamelCaseMotion_b
 
 sunmap w
 sunmap b
-
 
 " Fake '|' as text object
 nnoremap di\| T\|d,
@@ -194,7 +197,7 @@ let g:neocomplcache_enable_at_startup = 1
 "NERDTree
 "~~~~~~~~
 map <f2> :NERDTreeToggle<cr>
-imap <f2> <esc>:NERDTreeToggle<cr>a
+map <C-f2> :NERDTree ~/<CR>
 
 if has('win32') || has('win64')
 	autocmd vimenter * if !argc() | NERDTree C:/USERS/Matheus/Documents/Repositorios/ | endif
@@ -207,11 +210,10 @@ let NERDTreeIgnore=['.*\.meta', '.*\.\(cs\|unity\)proj','.*\.pidb']
 "FONTS AND COLORSCHEME
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
+colorscheme molokai
+
 if has('gui_running')
   set guifont=Consolas:h11
-  colorscheme solarized
-else
-  colorscheme slate
 endif
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -292,8 +294,8 @@ au FileType cs set foldmethod=marker
 au FileType cs set foldmarker={,}
 
 "Javascript
-au FileType Javascript set foldmethod=indent
-au FileType Javascript set foldlevelstart=1
+au FileType javascript call JavaScriptFold()
+au FileType javascript setl fen
 
 " Tags
 set tag=C:/USERS/Matheus/.vim/tags/commontags
