@@ -63,16 +63,16 @@ set confirm
 " Remapping leader key
 let mapleader=","
 
-map <leader>ow <ESC>:NERDTree C:/Program Files\ \(x86\)/EasyPHP-5.3.8.1/www/<CR>
-
 nmap <leader>hl :call HlSearchtoggle()<CR>
 nmap <leader>ts :call TabSizeToggle()<CR>
 
 " Check spell
-nmap <silent> <leader>s :set spell!<CR>
+"nmap <silent> <leader>s :set spell!<CR>
 
 " Open vimrc
-nmap <silent> <C-f12> <ESC>:tabnew<CR>:e $MYVIMRC<CR>
+nmap <silent> <C-F12> :tabnew<CR>:e ~/.vim/.vimrc<CR>
+"autocmd BufWritePost .vimrc :!start cp -f ~/.vim/.vimrc ~/_vimrc
+nmap <silent> <leader>sv :!start cp ~/.vim/.vimrc ~/_vimrc<CR>
 
 " Toggle line numbers between relative and absolute
 map <leader>nt :call NumberToggle()<CR>
@@ -106,7 +106,6 @@ imap [ []<left>
 
 "automatically change current working directory
 map <leader>cwd :lcd %:p:h<CR>
-
 
 nnoremap j gj
 nnoremap k gk
@@ -167,7 +166,7 @@ else
   nmap <silent><leader>os <leader>cfp :!terminal cd <C-R>*<CR>
 endif
 
-map <silent><F7> :!start C:/Users/Matheus/.vim/tags/ctags.exe --append=yes --recurse=yes -f C:/Users/Matheus/.vim/tags/commontags --extra=+fq --fields=+fiKlmnsSzt --c\#-kinds=cdefimnps --sort=yes C:/Users/Matheus/Documents/Repositorios/Catalogo/*<CR>
+map <silent><F7> :!start ctags.exe --append=yes --recurse=yes -f ~/.vim/tags/commontags --extra=+fq --fields=+fiKlmnsSzt --c\#-kinds=cdefimnps --sort=yes ./* <CR>
 
 " Show syntax highlighting groups for word under cursor
 nmap <C-S-P> :call <SID>SynStack()<CR>
@@ -199,9 +198,7 @@ let g:neocomplcache_enable_at_startup = 1
 map <f2> :NERDTreeToggle<cr>
 map <C-f2> :NERDTree ~/<CR>
 
-if has('win32') || has('win64')
-	autocmd vimenter * if !argc() | NERDTree C:/USERS/Matheus/Documents/Repositorios/ | endif
-endif
+autocmd vimenter * if !argc() | NERDTree ~/ | endif
 
 let NERDTreeIgnore=['.*\.meta', '.*\.\(cs\|unity\)proj','.*\.pidb']
 
