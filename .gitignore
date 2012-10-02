@@ -1,11 +1,5 @@
-/fonts/
-/tags/
-/textos
+*.sw[a-z]
 
-*.bmp
-*.ico
-.rsrc
-*.gif
-*.pdf
-*.swp
-tutor
+tags
+
+bundle/
