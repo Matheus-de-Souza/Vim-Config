@@ -55,3 +55,9 @@
 [submodule "bundle/ri"]
 	path = bundle/ri
 	url = git://github.com/danchoi/ri.vim.git
+[submodule "bundle/mayansmoke"]
+	path = bundle/mayansmoke
+	url = git://github.com/vim-scripts/mayansmoke.git
+[submodule "bundle/vim-pyte"]
+	path = bundle/vim-pyte
+	url = git://github.com/therubymug/vim-pyte.git
