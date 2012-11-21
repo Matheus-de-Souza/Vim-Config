@@ -65,14 +65,15 @@ let mapleader=","
 
 nmap <leader>hl :call HlSearchtoggle()<CR>
 nmap <leader>ts :call TabSizeToggle()<CR>
+"nmap <Leader>fu :call SearchUnity()<CR>
 
 " Check spell
 "nmap <silent> <leader>s :set spell!<CR>
 
 " Open vimrc
-nmap <silent> <C-F12> :tabnew<CR>:e ~/.vim/.vimrc<CR>
+nmap <silent> <leader>ov :tabnew<CR>:e ~/.vim/.vimrc<CR>
 "autocmd BufWritePost .vimrc :!start cp -f ~/.vim/.vimrc ~/_vimrc
-nmap <silent> <leader>sv :!start cp ~/.vim/.vimrc ~/_vimrc<CR>
+nmap <silent> <leader>sv :w<CR>:!start powershell cp ~/.vim/.vimrc ~/_vimrc<CR>
 
 " Toggle line numbers between relative and absolute
 map <leader>nt :call NumberToggle()<CR>
@@ -110,8 +111,8 @@ map <leader>cwd :lcd %:p:h<CR>
 nnoremap j gj
 nnoremap k gk
 " Remap VIM 0 to first non-blank character and ^ to first character
-nnoremap 0 ^
-nnoremap ^ 0
+noremap 0 ^
+noremap ^ 0
 
 "Remap r to R
 nnoremap r R
@@ -266,6 +267,11 @@ function! <SID>DoCalc()
 	endif
 	echo eval(line)
 endfunction
+
+"function! <SID> SearchUnity ()
+"	execute :normal viw"0y
+"	execute ":start iexplore C:\Program Files (x86)\Unity\Editor\Data\Documentation\Documentation\ScriptReference?q=" . @"0
+"endfunction
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 "MISCELANIA
@@ -295,7 +301,7 @@ au FileType javascript call JavaScriptFold()
 au FileType javascript setl fen
 
 " Tags
-set tag=C:/USERS/Matheus/.vim/tags/commontags
+set tag=~/.vim/tags/commontags
 
 " Taglist plugin
 " Display function name in status bar:
@@ -322,7 +328,7 @@ autocmd BufReadPost *
 " omnicppcomplete options
 map <C-x><C-x><C-T> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q -f <CR><CR>
 " ~/.vim/commontags /usr/include /usr/local/include ~/moz/obj-ff-dbg/dist/include<CR><CR>
-set tags+=C:/USERS/Matheus/.vim/tags/commontags
+set tags+=~/.vim/tags/commontags
 
 " --- OmniCppComplete ---
 " auto close options when exiting insert mode or moving away
