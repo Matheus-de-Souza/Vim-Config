@@ -78,9 +78,6 @@ nmap <silent> <leader>sv :w<CR>:!start powershell cp ~/.vim/.vimrc ~/_vimrc<CR>
 " Toggle line numbers between relative and absolute
 map <leader>nt :call NumberToggle()<CR>
 
-"Call function
-nmap <C-D> :call DoCalc()<CR>
-
 " Tab mappings.
 map <leader>tt :tabnew<cr>
 map <leader>te :tabedit
@@ -91,6 +88,9 @@ map <leader>tp :tabprevious<cr>
 map <leader>tf :tabfirst<cr>
 map <leader>tl :tablast<cr>
 map <leader>tm :tabmove<cr>
+
+map <C-Tab> <esc>:tabnext<cr>
+map <C-S-Tab> <esc>:tabprevious<cr>
 
 "Window resizing
 map <A-+> <C-w>+
@@ -110,6 +110,9 @@ map <leader>cwd :lcd %:p:h<CR>
 
 nnoremap j gj
 nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+
 " Remap VIM 0 to first non-blank character and ^ to first character
 noremap 0 ^
 noremap ^ 0
@@ -125,6 +128,21 @@ vmap < <gv
 " Copy from cursor to the end of the line
 nnoremap Y y$
 nnoremap <C-Y> "+y$
+
+nnoremap <C-Up> :call SavePosition(".")<CR>:.m.-2<CR>:call LoadPosition()<CR>
+nnoremap <C-Down> :call SavePosition(".")<CR>:.m.+1<CR>:call LoadPosition()<CR>
+
+nnoremap <S-Up> :call SavePosition(".-1")<CR>:.t.-1<CR>:call LoadPosition()<CR>
+nnoremap <S-Down> :call SavePosition(".+1")<CR>:.t.<CR>:call LoadPosition()<CR>
+
+function! SavePosition(line)
+	let g:savedCursorPosition = col(".")
+	let g:savedLinePosition = line(a:line)
+endfunction
+
+function! LoadPosition()
+	call setpos(".", [0, g:savedLinePosition, g:savedCursorPosition, 0])
+endfunction
 
 "CamelCasePlugin key mapping
 map <silent>w <Plug>CamelCaseMotion_w
