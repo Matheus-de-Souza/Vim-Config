@@ -4,8 +4,13 @@
 set runtimepath=$HOME/.vim,$VIMRUNTIME
 
 if !exists("g:loaded_pathogen")
+
+	let g:pathogen_disabled = []
+    "call add(g:pathogen_disabled, 'neocomplcache')
+    "call add(g:pathogen_disabled, 'supertab')
+
 	runtime! autoload/pathogen.vim
-	silent! call pathogen#runtime_append_all_bundles()
+	silent! call pathogen#infect()
 	silent! call pathogen#helptags()
 endif
 
@@ -220,6 +225,9 @@ map <C-f2> :NERDTree ~/<CR>
 autocmd vimenter * if !argc() | NERDTree ~/ | endif
 
 let NERDTreeIgnore=['.*\.meta', '.*\.\(cs\|unity\)proj','.*\.pidb']
+
+"Sparkup
+let g:sparkup = "~/.vim/bundle/sparkup/"
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
