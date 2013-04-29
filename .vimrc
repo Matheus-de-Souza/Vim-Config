@@ -65,6 +65,8 @@ set confirm
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+map <F11> <Esc>:call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)<CR>
+
 " Remapping leader key
 let mapleader=","
 
@@ -86,16 +88,14 @@ map <leader>nt :call NumberToggle()<CR>
 " Tab mappings.
 map <leader>tt :tabnew<cr>
 map <leader>te :tabedit
-map <leader>tc :tabclose<cr>
-map <leader>to :tabonly<cr>
 map <leader>tn :tabnext<cr>
 map <leader>tp :tabprevious<cr>
 map <leader>tf :tabfirst<cr>
 map <leader>tl :tablast<cr>
 map <leader>tm :tabmove<cr>
 
-map <C-Tab> <esc>:tabnext<cr>
-map <C-S-Tab> <esc>:tabprevious<cr>
+map <C-Tab> :tabnext<cr>
+map <C-Tab> :tabprevious<cr>
 
 "Window resizing
 map <A-+> <C-w>+
@@ -229,6 +229,18 @@ let NERDTreeIgnore=['.*\.meta', '.*\.\(cs\|unity\)proj','.*\.pidb']
 "Sparkup
 let g:sparkup = "~/.vim/bundle/sparkup/"
 
+"Tabularize
+nmap <Leader>a= :Tabularize /=<CR>
+vmap <Leader>a= :Tabularize /=<CR>
+nmap <Leader>a: :Tabularize /:<CR>
+vmap <Leader>a: :Tabularize /:<CR>
+nmap <Leader>a:: :Tabularize /:\zs<CR>
+vmap <Leader>a:: :Tabularize /:\zs<CR>
+nmap <Leader>a, :Tabularize /,<CR>
+vmap <Leader>a, :Tabularize /,<CR>
+nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 "FONTS AND COLORSCHEME
@@ -294,9 +306,14 @@ function! <SID>DoCalc()
 	echo eval(line)
 endfunction
 
-"function! <SID> SearchUnity ()
-"	execute :normal viw"0y
-"	execute ":start iexplore C:\Program Files (x86)\Unity\Editor\Data\Documentation\Documentation\ScriptReference?q=" . @"0
+map <Leader>u :call SearchUnity()<CR>
+function! SearchUnity()
+	exec 'normal viw"0y'
+	let line = @0
+	let line = "C:/Program Files (x86)/Unity/Editor/Data/Documentation/Documentation/ScriptReference?q=" . line
+	exec "start iexplore ".line
+endfunction
+"
 "endfunction
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
