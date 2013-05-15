@@ -20,31 +20,34 @@ endif
 
 filetype plugin on
 set nocompatible
+set encoding=utf-8
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
-set nobackup		" DON'T keep a backup file
-
-set history=200		" keep 50 lines of command line history
-set ruler			" show the cursor position all the time
-set showcmd			" display incomplete commands
-set incsearch		" do incremental searching
-set hlsearch
-set ts=4 sts=4 sw=4 noexpandtab " default settings
+set hidden       " allow switching buffers, which have unsaved changes
 
 set autoread
-set number				" line numbers
-set autoindent
 set cindent
-set encoding=utf-8
-set mouse=a				" use mouse in xterm to scroll
-set scrolloff=5 		" 5 lines before and after the current line when scrolling
-set ignorecase			" ignore case
-set smartcase			" but don't ignore it, when search string contains uppercase letters
-set hidden 				" allow switching buffers, which have unsaved changes
+set guioptions-=Tr
+"set guioptions-=TrLb
+set history=200 " keep 200 lines of command line history
+set mouse=a     " use mouse in xterm to scroll
 set mousehide
-set shiftwidth=4		" 4 characters for indenting
-set showmatch			" showmatch: Show the matching bracket for the last ')'?
-set scrolloff=3 		" minimum lines to keep above and below cursor
+set nobackup    " DON'T keep a backup file
 set nospell
+set number      " line numbers
+
+set autoindent
+set ruler       " show the cursor position all the time
+set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab " default settings
+
+set scrolloff=5  " 5 lines before and after the current line when scrolling
+set showcmd      " display incomplete commands
+
+"serach Options
+set hlsearch
+set incsearch    " do incremental searching
+set showmatch    " showmatch: Show the matching bracket for the last ')'?
+set ignorecase   " ignore case
+set smartcase    " but don't ignore it, when search string contains uppercase letters
 "set spelllang=pt_br
 
 set wrap				"nowrap by default
@@ -190,7 +193,7 @@ else
   nmap <silent><leader>os <leader>cfp :!terminal cd <C-R>*<CR>
 endif
 
-map <silent><F7> :!start ctags.exe --append=yes --recurse=yes -f ~/.vim/tags/commontags --extra=+fq --fields=+fiKlmnsSzt --c\#-kinds=cdefimnps --sort=yes ./* <CR>
+map <silent><F7> :!start ctags.exe --append=no --recurse=yes -f ./tags --extra=+fq --fields=+fiKlmnsSzt --c\#-kinds=cdefimnps --sort=yes ./* <CR>:set tags=tags<CR>
 
 " Show syntax highlighting groups for word under cursor
 nmap <C-S-P> :call <SID>SynStack()<CR>
@@ -219,12 +222,15 @@ let g:neocomplcache_enable_at_startup = 1
 
 "NERDTree
 "~~~~~~~~
+let NERDTreeDirArrows = 1
+let NERDTreeChDirMode = 2
+let NERDTreeIgnore = ['.*\.meta', '.*\.\(cs\|unity\)proj','.*\.pidb']
+
 map <f2> :NERDTreeToggle<cr>
 map <C-f2> :NERDTree ~/<CR>
 
 autocmd vimenter * if !argc() | NERDTree ~/ | endif
 
-let NERDTreeIgnore=['.*\.meta', '.*\.\(cs\|unity\)proj','.*\.pidb']
 
 "Sparkup
 let g:sparkup = "~/.vim/bundle/sparkup/"
@@ -313,6 +319,18 @@ function! SearchUnity()
 	let line = "C:/Program Files (x86)/Unity/Editor/Data/Documentation/Documentation/ScriptReference?q=" . line
 	exec "start iexplore ".line
 endfunction
+
+command! -nargs=0 -bar Qargs execute 'args' QuickfixFilenames()
+
+function! QuickfixFilenames()
+  " Building a hash ensures we get each buffer only once
+  let buffer_numbers = {}
+  for quickfix_item in getqflist()
+    let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
+  endfor
+  return join(map(values(buffer_numbers), 'fnameescape(v:val)'))
+endfunction
+
 "
 "endfunction
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -344,7 +362,7 @@ au FileType javascript call JavaScriptFold()
 au FileType javascript setl fen
 
 " Tags
-set tag=~/.vim/tags/commontags
+set tags=tags
 
 " Taglist plugin
 " Display function name in status bar:
