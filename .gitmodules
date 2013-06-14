@@ -76,3 +76,6 @@
 [submodule "bundle/vim-abolish"]
 	path = bundle/vim-abolish
 	url = git://github.com/tpope/vim-abolish.git
+[submodule "bundle/gmcs"]
+	path = bundle/gmcs
+	url = https://github.com/vim-scripts/gmcs.vim
