@@ -79,3 +79,6 @@
 [submodule "bundle/gmcs"]
 	path = bundle/gmcs
 	url = https://github.com/vim-scripts/gmcs.vim
+[submodule "bundle/vim-tomorrow-theme"]
+	path = bundle/vim-tomorrow-theme
+	url = https://github.com/chriskempson/vim-tomorrow-theme
