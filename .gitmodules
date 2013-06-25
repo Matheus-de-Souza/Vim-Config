@@ -91,3 +91,15 @@
 [submodule "bundle/vim-snipmate"]
 	path = bundle/vim-snipmate
 	url = https://github.com/garbas/vim-snipmate.git
+[submodule "bundle/specials/vim-snippets"]
+	path = bundle/specials/vim-snippets
+	url = git@github.com:honza/vim-snippets.git
+[submodule "bundle/AsyncCommand"]
+	path = bundle/AsyncCommand
+	url = https://github.com/pydave/AsyncCommand
+[submodule "bundle/vim-pomodoro"]
+	path = bundle/vim-pomodoro
+	url = https://github.com/mnick/vim-pomodoro
+[submodule "bundle/vim-niji"]
+	path = bundle/vim-niji
+	url = https://github.com/amdt/vim-niji
