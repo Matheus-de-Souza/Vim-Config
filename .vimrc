@@ -75,7 +75,6 @@ let mapleader=","
 
 nmap <leader>hl :call HlSearchtoggle()<CR>
 nmap <leader>ts :call TabSizeToggle()<CR>
-"nmap <Leader>fu :call SearchUnity()<CR>
 
 " Check spell
 "nmap <silent> <leader>s :set spell!<CR>
@@ -89,16 +88,13 @@ nmap <silent> <leader>sv :w<CR>:!start powershell cp ~/.vim/.vimrc ~/_vimrc<CR>
 map <leader>nt :call NumberToggle()<CR>
 
 " Tab mappings.
-map <leader>tt :tabnew<cr>
-map <leader>te :tabedit
-map <leader>tn :tabnext<cr>
-map <leader>tp :tabprevious<cr>
-map <leader>tf :tabfirst<cr>
-map <leader>tl :tablast<cr>
-map <leader>tm :tabmove<cr>
-
-map <C-Tab> :tabnext<cr>
-map <C-Tab> :tabprevious<cr>
+noremap <leader>tt :tabnew<cr>
+noremap nt :tabnext<CR>
+noremap pt :tabprevious<CR>
+noremap te :tabedit
+noremap tf :tabfirst<cr>
+noremap tl :tablast<cr>
+noremap tm :tabmove<cr>
 
 "Window resizing
 map <A-+> <C-w>+
@@ -120,6 +116,9 @@ nnoremap j gj
 nnoremap k gk
 vnoremap j gj
 vnoremap k gk
+
+noremap <c-w><c-q> <Nop>
+noremap <c-w>q <Nop>
 
 " Remap VIM 0 to first non-blank character and ^ to first character
 noremap 0 ^
@@ -151,6 +150,16 @@ endfunction
 function! LoadPosition()
 	call setpos(".", [0, g:savedLinePosition, g:savedCursorPosition, 0])
 endfunction
+
+function! Refactor()
+    call inputsave()
+    let @z=input("What do you want to rename '" . @z . "' to? ")
+    call inputrestore()
+endfunction
+
+" Thanks to Andrew Ray by the gist: https://gist.github.com/DelvarWorld/048616a2e3f5d1b5a9ad
+" Locally (local to block) rename a variable
+nmap <Leader>rf "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>[{V%:s/<C-R>//<c-r>z/g<cr>`x
 
 "CamelCasePlugin key mapping
 map <silent>w <Plug>CamelCaseMotion_w
@@ -193,6 +202,10 @@ else
   nmap <silent><leader>os <leader>cfp :!terminal cd <C-R>*<CR>
 endif
 
+"put current time and day on file
+nnoremap <F5> "=strftime("%x %X")<CR>P
+inoremap <F5> <C-R>=strftime("%x %X")<CR>
+
 map <silent><F7> :!start ctags.exe --append=no --recurse=yes -f ./tags --extra=+fq --fields=+fiKlmnsSzt --c\#-kinds=cdefimnps --sort=yes ./* <CR>:set tags=tags<CR>
 
 " Show syntax highlighting groups for word under cursor
@@ -231,7 +244,6 @@ map <C-f2> :NERDTree ~/<CR>
 
 autocmd vimenter * if !argc() | NERDTree ~/ | endif
 
-
 "Sparkup
 let g:sparkup = "~/.vim/bundle/sparkup/"
 
@@ -252,7 +264,7 @@ vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
 "FONTS AND COLORSCHEME
 
 "~~~~~~~~~~~~~~~~~~~~~~~~~~~
-colorscheme molokai
+colorscheme solarized
 
 if has('gui_running')
   set guifont=Consolas:h11
@@ -278,7 +290,7 @@ function! TabSizeToggle()
 	else
 		set tabstop=4 shiftwidth=4 softtabstop=4
 	endif
-	echo "tab size: " &tabstop
+	echo "tab size:" &tabstop
 endfunc
 
 function! NumberToggle()
@@ -319,6 +331,27 @@ function! SearchUnity()
 	let line = "C:/Program Files (x86)/Unity/Editor/Data/Documentation/Documentation/ScriptReference?q=" . line
 	exec "start iexplore ".line
 endfunction
+
+" By Tim Pope
+function! OpenURL(url)
+  if has("win32")
+    exe "!start cmd /cstart /b ".a:url.""
+  elseif $DISPLAY !~ '^\w'
+    exe "silent !sensible-browser \"".a:url."\""
+  else
+    exe "silent !sensible-browser -T \"".a:url."\""
+  endif
+  redraw!
+endfunction
+command! -nargs=1 OpenURL :call OpenURL(<q-args>)
+
+" mapping to open URL under cursor
+nnoremap gff :OpenURL <cfile><CR>
+nnoremap gaa :OpenURL http://www.answers.com/<cword><CR>
+nnoremap ggg :OpenURL http://www.google.com/search?q=<cword><CR>
+nnoremap guu :OpenURL http://docs.unity3d.com/Documentation/ScriptReference/30_search.html?q=<cword><CR>
+nnoremap gww :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
+nnoremap gtt :OpenURL http://translate.google.com/\#en/pt/<cword><CR>
 
 command! -nargs=0 -bar Qargs execute 'args' QuickfixFilenames()
 
@@ -412,3 +445,27 @@ set tags+=./tags
 
 " Remember info about open buffers on close
 set viminfo^=%
+
+" Execute 'cmd' while redirecting output.
+" Delete all lines that do not match regex 'filter' (if not empty).
+" Delete any blank lines.
+" Delete '<whitespace><number>:<whitespace>' from start of each line.
+" Display result in a scratch buffer.
+function! s:Filter_lines(cmd, filter)
+  let save_more = &more
+  set nomore
+  redir => lines
+  silent execute a:cmd
+  redir END
+  let &more = save_more
+  new
+  setlocal buftype=nofile bufhidden=hide noswapfile
+  put =lines
+  g/^\s*$/d
+  %s/^\s*\d\+:\s*//e
+  if !empty(a:filter)
+    execute 'v/' . a:filter . '/d'
+  endif
+  0
+endfunction
+command! -nargs=? Scriptnames call s:Filter_lines('scriptnames', <q-args>)
