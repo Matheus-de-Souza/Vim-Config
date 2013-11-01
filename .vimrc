@@ -3,6 +3,13 @@
 "SET RUNTIMEPATH
 set runtimepath=$HOME/.vim,$VIMRUNTIME
 
+"if filewritable($HOME . '\\.vim\\bkp1') && !filewritable($HOME/.vim/tmp1)
+	"silent execute '!mkdir ' . $HOME . '\\.vim\\bkp1'
+"endif
+
+"set dir=$HOME/.vim/tmp1,$HOME/.vim/tmp2,.
+"set backupdir=$HOME/.vim/bkp1,$HOME/.vim/bkp2,.
+
 if !exists("g:loaded_pathogen")
 
 	let g:pathogen_disabled = []
@@ -346,12 +353,12 @@ endfunction
 command! -nargs=1 OpenURL :call OpenURL(<q-args>)
 
 " mapping to open URL under cursor
-nnoremap gff :OpenURL <cfile><CR>
-nnoremap gaa :OpenURL http://www.answers.com/<cword><CR>
-nnoremap ggg :OpenURL http://www.google.com/search?q=<cword><CR>
-nnoremap guu :OpenURL http://docs.unity3d.com/Documentation/ScriptReference/30_search.html?q=<cword><CR>
-nnoremap gww :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
-nnoremap gtt :OpenURL http://translate.google.com/\#en/pt/<cword><CR>
+nnoremap <leader>gf :OpenURL <cfile><CR>
+nnoremap <leader>ga :OpenURL http://www.answers.com/<cword><CR>
+nnoremap <leader>gg :OpenURL http://www.google.com/search?q=<cword><CR>
+nnoremap <leader>gu :OpenURL http://docs.unity3d.com/Documentation/ScriptReference/30_search.html?q=<cword><CR>
+nnoremap <leader>gw :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
+nnoremap <leader>gt :OpenURL http://translate.google.com/\#en/pt/<cword><CR>
 
 command! -nargs=0 -bar Qargs execute 'args' QuickfixFilenames()
 
